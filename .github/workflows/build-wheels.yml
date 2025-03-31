@@ -36,7 +36,7 @@ jobs:
           CIBW_ARCHS_LINUX: x86_64 i686 
           #CIBW_ARCHS_MACOS: ""
           CIBW_ARCHS_WINDOWS: AMD64 x86 
-          CIBW_BUILD: cp39-* cp310-* cp311-* cp312-* cp313-*
+          CIBW_BUILD: cp310-* cp311-* cp312-* cp313-*
           #CIBW_SKIP: pp* cp3?-* cp313-* *-win32 *_i686 *-musllinux_*
           CIBW_TEST_COMMAND: pytest -rfxEXs --durations=20 --disable-warnings --showlocals
           CIBW_TEST_REQUIRES: pytest testfixtures mock
@@ -57,12 +57,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - {python: '3.9', os: ubuntu-22.04}
           - {python: '3.10', os: ubuntu-22.04}
           - {python: '3.11', os: ubuntu-22.04}
           - {python: '3.12', os: ubuntu-22.04}
 
-          - {python: '3.9', os: windows-2022}
           - {python: '3.10', os: windows-2022}
           - {python: '3.11', os: windows-2022}
           - {python: '3.12', os: windows-2022}
