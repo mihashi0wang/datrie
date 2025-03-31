@@ -11,6 +11,7 @@ from Cython.Build import cythonize
 LIBDATRIE_DIR = 'libdatrie'
 LIBDATRIE_FILES = sorted(glob.glob(os.path.join(LIBDATRIE_DIR, "datrie", "*.c")))
 
+
 DESCRIPTION = __doc__
 LONG_DESCRIPTION = open('README.rst').read() + open('CHANGES.rst').read()
 LICENSE = 'LGPLv2+'
@@ -30,6 +31,11 @@ CLASSIFIERS = [
     'Programming Language :: Python :: 3.6',
     'Programming Language :: Python :: 3.7',
     'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
     'Programming Language :: Python :: Implementation :: CPython',
     'Topic :: Software Development :: Libraries :: Python Modules',
     'Topic :: Scientific/Engineering :: Information Analysis',

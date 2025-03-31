@@ -1,0 +1,88 @@
+name: Build wheels
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+#  schedule:
+#    - cron: '0 0 * * sun,wed'
+
+jobs:
+  build_wheels:
+    name: Build ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, windows-2022]
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        if: runner.os == 'Linux'
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: all
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.23.1
+        env:
+          CIBW_ARCHS_LINUX: x86_64 i686 
+          #CIBW_ARCHS_MACOS: ""
+          CIBW_ARCHS_WINDOWS: AMD64 x86 
+          CIBW_BUILD: cp39-* cp310-* cp311-* cp312-* cp313-*
+          #CIBW_SKIP: pp* cp3?-* cp313-* *-win32 *_i686 *-musllinux_*
+          CIBW_TEST_COMMAND: pytest -rfxEXs --durations=20 --disable-warnings --showlocals
+          CIBW_TEST_REQUIRES: pytest testfixtures mock
+          #CIBW_TEST_SKIP: "win*"
+          CIBW_BUILD_VERBOSITY: 3
+
+      - name: Upload wheels as artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheels-${{ matrix.os }}
+          path: wheelhouse/*.whl
+
+  test:
+    name: Test ${{ matrix.os }} Py${{ matrix.python }}
+    needs: build_wheels
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {python: '3.9', os: ubuntu-22.04}
+          - {python: '3.10', os: ubuntu-22.04}
+          - {python: '3.11', os: ubuntu-22.04}
+          - {python: '3.12', os: ubuntu-22.04}
+
+          - {python: '3.9', os: windows-2022}
+          - {python: '3.10', os: windows-2022}
+          - {python: '3.11', os: windows-2022}
+          - {python: '3.12', os: windows-2022}
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Setup up Python ${{ matrix.python }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Downloads build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts/
+
+      - name: Install wheel
+        run: pip install artifacts/wheels-${{ matrix.os }}
+
+      #
+      # If the wheel was incorrectly built, then this will fail.
+      - name: Test wheel
+        run: python -c 'import datrie'
