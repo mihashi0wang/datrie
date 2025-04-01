@@ -129,7 +129,7 @@ jobs:
           
           # 列出 artifacts 目录内容
           Get-ChildItem -Path "artifacts" -Force | Format-List
-          pip install ./rtifacts/datrie-0.8.2-cp${PYTHON_VERSION_NO_DOT}-cp${PYTHON_VERSION_NO_DOT}-win_amd64.whl
+          pip install ./artifacts/datrie-0.8.2-cp${PYTHON_VERSION_NO_DOT}-cp${PYTHON_VERSION_NO_DOT}-win_amd64.whl
         shell: pwsh
 
   
