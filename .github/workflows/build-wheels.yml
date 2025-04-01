@@ -75,7 +75,8 @@ jobs:
       - name: Downloads build artifacts
         uses: actions/download-artifact@v4
         with:
-          path: artifacts/wheels-${{ matrix.os }}
+          name: wheels-${{ matrix.os }}
+          path: artifacts/
 
       - name: Unzip build artifacts
         run:
