@@ -107,21 +107,30 @@ jobs:
           }
         shell: pwsh
 
-      - name: set YTHON_VERSION_NO_DOT 
-        run: |
-          PYTHON_VERSION_NO_DOT=$(echo ${{ matrix.python }} | sed 's/\.//')
-          echo $PYTHON_VERSION_NO_DOT
-
       - name: Install wheel in Linux
         if:  runner.os == 'Linux'
         run: |
+          export PYTHON_VERSION_NO_DOT=$(echo ${{ matrix.python }} | sed 's/\.//')
+          echo $PYTHON_VERSION_NO_DOT
           pwd
           ls artifacts/ -la
           python -m pip install ./artifacts/datrie-0.8.2-cp${PYTHON_VERSION_NO_DOT}-cp${PYTHON_VERSION_NO_DOT}-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
 
       - name: Install wheel in Windows
         if:  runner.os == 'Windows'
-        run: pip install ./rtifacts/datrie-0.8.2-cp${PYTHON_VERSION_NO_DOT}-cp${PYTHON_VERSION_NO_DOT}-win_amd64.whl
+        run: |
+         # 获取 Python 版本并去掉小数点
+          $PYTHON_VERSION_NO_DOT = "${{ matrix.python }}".Replace('.', '')
+          Write-Host "PYTHON_VERSION_NO_DOT: $PYTHON_VERSION_NO_DOT"
+          
+          # 获取当前目录
+          $current_dir = Get-Location
+          Write-Host "Current directory: $current_dir"
+          
+          # 列出 artifacts 目录内容
+          Get-ChildItem -Path "artifacts" -Force | Format-List
+          pip install ./rtifacts/datrie-0.8.2-cp${PYTHON_VERSION_NO_DOT}-cp${PYTHON_VERSION_NO_DOT}-win_amd64.whl
+        shell: pwsh
 
   
       # If the wheel was incorrectly built, then this will fail.
