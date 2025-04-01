@@ -80,7 +80,8 @@ jobs:
           path: artifacts/wheels-${{ matrix.os }}.zip
 
       - name: Unzip build artifacts
-        run: unzip ${{steps.download.outputs.download-path}}
+        run: unzip artifacts/wheels-${{ matrix.os }}.zip -d artifacts/
+        # ${{steps.download.outputs.download-path}}
       
       - name: Install wheel in Linux
         if:  runner.os == 'Linux'
