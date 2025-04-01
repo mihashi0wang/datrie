@@ -76,11 +76,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: wheels-${{ matrix.os }}
-          path: artifacts/
+          path: artifacts/wheels-${{ matrix.os }}.zip
 
       - name: Unzip build artifacts
         run:
-          unzip artifacts/wheels-${{ matrix.os }}
+          unzip -d artifacts/wheels-${{ matrix.os }}.zip
       
       - name: Install wheel in Linux
         if:  runner.os == 'Linux'
