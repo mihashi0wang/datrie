@@ -1,5 +1,11 @@
-mihashi0wang/datrie 
+mihashi0wang/datrie  |build| |release|
 ==================================
+
+ .. |build| image:: https://github.com/mihashi0wang/datrie/actions/workflows/build-wheels.yml/badge.svg
+   :target: https://github.com/mihashi0wang/datrie/actions/workflows/build-wheels.yml
+
+.. |release| image:: https://img.shields.io/github/v/release/mihashi0wang/datrie
+   :target: https://github.com/mihashi0wang/datrie/releases
 
 Provide users with modernized dependency support while maintaining functional consistency with the original project.
 
