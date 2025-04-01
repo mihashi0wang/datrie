@@ -83,7 +83,7 @@ jobs:
 
       - name: Install wheel in Windows
         if:  runner.os == 'Windows'
-        run: pip install artifacts\wheels-${{ matrix.os }}\datrie-0.8.2-cp${{ matrix.python }}-cp${{ matrix.python }}-win_amd64.whl
+        run: pip install artifacts/wheels-${{ matrix.os }}/datrie-0.8.2-cp${{ matrix.python }}-cp${{ matrix.python }}-win_amd64.whl
 
   
       # If the wheel was incorrectly built, then this will fail.
