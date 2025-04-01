@@ -1,10 +1,6 @@
 mihashi0wang/datrie 
 ==================================
 
-[![Build Status](https://github.com/mihashi0wang/datrie/actions/workflows/build-wheels.yml/badge.svg?branch=master)](https://github.com/mihashi0wang/datrie/actions)
-
-[![GitHub release](https://img.shields.io/github/release/mihashi0wang/datrie.svg?maxAge=3600)](https://github.com/mihashi0wang/datrie/releases)
-
 Provide users with modernized dependency support while maintaining functional consistency with the original project.
 
 
