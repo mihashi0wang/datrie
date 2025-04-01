@@ -80,13 +80,18 @@ jobs:
           path: artifacts/
 
       - name: Unzip build artifacts
+        if:  runner.os == 'Linux'
         run: |
           pwd
           cd artifacts
           ls -la
-          file wheels-${{ matrix.os }}
-          unzip wheels-${{ matrix.os }}
-      
+          if [ -f "wheels-${{ matrix.os }}" ]; then
+              echo "文件存在，正在解压..."
+              unzip "wheels-${{ matrix.os }}"
+          else
+              echo "文件不存在，跳过解压步骤。"
+          fi
+          
       - name: Install wheel in Linux
         if:  runner.os == 'Linux'
         run: pip install artifacts/datrie-0.8.2-cp${{ matrix.python }}-cp${{ matrix.python }}-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
