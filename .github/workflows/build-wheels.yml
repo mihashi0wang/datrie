@@ -77,19 +77,19 @@ jobs:
         id: download
         with:
           name: wheels-${{ matrix.os }}
-          path: wheels-${{ matrix.os }}.zip
+          path: artifacts/wheels-${{ matrix.os }}.zip
 
       - name: Unzip build artifacts
-        run: unzip wheels-${{ matrix.os }}.zip
+        run: tar -xvzf artifacts/wheels-${{ matrix.os }}.zip -C artifacts
         # ${{steps.download.outputs.download-path}}
       
       - name: Install wheel in Linux
         if:  runner.os == 'Linux'
-        run: pip install datrie-0.8.2-cp${{ matrix.python }}-cp${{ matrix.python }}-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+        run: pip install artifacts/datrie-0.8.2-cp${{ matrix.python }}-cp${{ matrix.python }}-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
 
       - name: Install wheel in Windows
         if:  runner.os == 'Windows'
-        run: pip install datrie-0.8.2-cp${{ matrix.python }}-cp${{ matrix.python }}-win_amd64.whl
+        run: pip install artifacts/datrie-0.8.2-cp${{ matrix.python }}-cp${{ matrix.python }}-win_amd64.whl
 
   
       # If the wheel was incorrectly built, then this will fail.
