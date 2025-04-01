@@ -95,7 +95,7 @@ jobs:
         if:  runner.os == 'Linux'
         run: |
           pwd
-          ls -la
+          ls artifacts/ -la
           pip install artifacts/datrie-0.8.2-cp${{ matrix.python }}-cp${{ matrix.python }}-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
 
       - name: Install wheel in Windows
