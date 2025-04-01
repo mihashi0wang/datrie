@@ -96,11 +96,11 @@ jobs:
         run: |
           pwd
           ls artifacts/ -la
-          pip install artifacts/datrie-0.8.2-cp${{ matrix.python }}-cp${{ matrix.python }}-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+          python -m pip install ./artifacts/datrie-0.8.2-cp${{ matrix.python }}-cp${{ matrix.python }}-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
 
       - name: Install wheel in Windows
         if:  runner.os == 'Windows'
-        run: pip install artifacts/datrie-0.8.2-cp${{ matrix.python }}-cp${{ matrix.python }}-win_amd64.whl
+        run: pip install ./rtifacts/datrie-0.8.2-cp${{ matrix.python }}-cp${{ matrix.python }}-win_amd64.whl
 
   
       # If the wheel was incorrectly built, then this will fail.
