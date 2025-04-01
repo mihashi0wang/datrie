@@ -77,15 +77,15 @@ jobs:
         id: download
         with:
           name: wheels-${{ matrix.os }}
-          path: artifacts/wheels-${{ matrix.os }}.gz
+          path: artifacts/
 
       - name: Unzip build artifacts
         run: |
           pwd
           cd artifacts
           ls -la
-          file wheels-${{ matrix.os }}.gz
-          unzip wheels-${{ matrix.os }}.gz
+          file wheels-${{ matrix.os }}
+          unzip wheels-${{ matrix.os }}
       
       - name: Install wheel in Linux
         if:  runner.os == 'Linux'
