@@ -1,6 +1,12 @@
 CHANGES
 =======
 
+0.8.2.1 (2025-04-03)
+------------------
+* Extended Python Support: Added support for Python 3.10, 3.11, 3.12, and 3.13 to ensure compatibility.
+* Platform Limitation: The project is limited to Windows and Linux 64-bit systems.
+
+
 0.8.2 (2020-03-25)
 ------------------
 * Future-proof Python support by making cython a build time dependency and
