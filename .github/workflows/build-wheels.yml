@@ -18,9 +18,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, windows-2022]
-    steps:
+       include:
+          - {python: '3.10', os: ubuntu-22.04}
+          - {python: '3.11', os: ubuntu-22.04}
+          - {python: '3.12', os: ubuntu-22.04}
 
+          - {python: '3.10', os: windows-2022}
+          - {python: '3.11', os: windows-2022}
+          - {python: '3.12', os: windows-2022}
+    steps:
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -30,30 +36,45 @@ jobs:
         with:
           platforms: all
 
+      - name: Setup up Python ${{ matrix.python }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install cibuildwheel
+        run: python -m pip install cibuildwheel==2.23.2
+
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.23.1
+        run: python -m cibuildwheel --output-dir wheelhouse
         env:
           CIBW_ARCHS_LINUX: x86_64
-          #CIBW_ARCHS_MACOS: ""
           CIBW_ARCHS_WINDOWS: AMD64
-          CIBW_MANYLINUX_X86_64_IMAGE: quay.io/pypa/manylinux2014_x86_64
-          CIBW_BUILD: cp310-* cp311-* cp312-* cp313-*
-          CIBW_SKIP: pp* *i686 *-musllinux_* *-win32
           CIBW_TEST_COMMAND: pytest -rfxEXs --durations=20 --disable-warnings --showlocals --pyargs datrie
           IBW_TEST_REQUIRES: pytest testfixtures mock
-          #CIBW_TEST_SKIP: "win*"
           CIBW_BUILD_VERBOSITY: 3
-
+      # - name: Build wheels
+      #   uses: pypa/cibuildwheel@v2.23.2
+      #   env:
+      #     CIBW_ARCHS_LINUX: x86_64
+      #     #CIBW_ARCHS_MACOS: ""
+      #     CIBW_ARCHS_WINDOWS: AMD64
+      #     CIBW_BUILD: cp310-* cp311-* cp312-* cp313-*
+      #     CIBW_SKIP: pp* *i686 *-musllinux_* *-win32
+      #     CIBW_TEST_COMMAND: pytest -rfxEXs --durations=20 --disable-warnings --showlocals --pyargs datrie
+      #     IBW_TEST_REQUIRES: pytest testfixtures mock
+      #     #CIBW_TEST_SKIP: "win*"
+      #     CIBW_BUILD_VERBOSITY: 3
       - name: Upload wheels as artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: wheels-${{ matrix.os }}
+          name: wheels-${{ matrix.os }}-${{ matrix.python }}
           path: wheelhouse/*.whl
 
   test:
     name: Test ${{ matrix.os }} Py${{ matrix.python }}
     needs: build_wheels
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
@@ -66,7 +87,6 @@ jobs:
           - {python: '3.11', os: windows-2022}
           - {python: '3.12', os: windows-2022}
 
-    runs-on: ${{ matrix.os }}
     steps:
       - name: Setup up Python ${{ matrix.python }}
         uses: actions/setup-python@v5
