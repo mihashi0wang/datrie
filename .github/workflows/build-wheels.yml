@@ -36,10 +36,11 @@ jobs:
           CIBW_ARCHS_LINUX: x86_64
           #CIBW_ARCHS_MACOS: ""
           CIBW_ARCHS_WINDOWS: AMD64
+          CIBW_MANYLINUX_X86_64_IMAGE: quay.io/pypa/manylinux2014_x86_64
           CIBW_BUILD: cp310-* cp311-* cp312-* cp313-*
           CIBW_SKIP: pp* *i686 *-musllinux_* *-win32
-          #CIBW_TEST_COMMAND: pytest -rfxEXs --durations=20 --disable-warnings --showlocals --pyargs datrie
-          #CIBW_TEST_REQUIRES: pytest testfixtures mock
+          CIBW_TEST_COMMAND: pytest -rfxEXs --durations=20 --disable-warnings --showlocals --pyargs datrie
+          IBW_TEST_REQUIRES: pytest testfixtures mock
           #CIBW_TEST_SKIP: "win*"
           CIBW_BUILD_VERBOSITY: 3
 
